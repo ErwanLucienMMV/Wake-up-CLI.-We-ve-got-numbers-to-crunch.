@@ -1,0 +1,33 @@
+services:
+  codex:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    image: local/codex-sandbox:1.0
+    container_name: ${CODEX_CONTAINER_NAME:-codex-sandbox}
+
+    restart: "no"
+
+    stdin_open: true
+    tty: true
+
+    volumes:
+      - codex_home:/home/node/.codex
+      - codex_workspace:/workspace
+      - codex_logs:/home/node/logs
+
+    mem_limit: ${CODEX_MEMORY:-4g}
+    cpus: ${CODEX_CPUS:-2.0}
+    pids_limit: 256
+
+    security_opt:
+      - no-new-privileges:true
+
+    cap_drop:
+      - ALL
+
+volumes:
+  codex_home:
+  codex_workspace:
+  codex_logs:
