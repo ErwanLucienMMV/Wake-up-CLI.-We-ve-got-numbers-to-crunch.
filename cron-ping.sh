@@ -16,9 +16,21 @@ while true; do
     echo "[$(date -Is)] Sending hello to Codex" \
         >> "$LOG_FILE"
 
-    if timeout 300 codex exec \
+    if timeout 300 codex --search exec \
+		--model gpt-5.1-codex-mini \
+  		-c model_reasoning_effort='"low"' \
         --skip-git-repo-check \
-        "hello" >> "$LOG_FILE" 2>&1; then
+        "Find the 3 most interesting developments in AI, cybersecurity, or software engineering published during the last 5 hours.
+
+  Requirements:
+  - Use live web sources, not training knowledge.
+  - Provide the headline, a 2-sentence summary, and the source URL.
+  - Include the publication timestamp in UTC.
+  - Do not invent news if fewer than 3 verified stories are available.
+  - If web access is unavailable, report that clearly.
+  - Link the source
+
+  Keep the response concise." >> "$LOG_FILE" 2>&1; then
 
         echo "[$(date -Is)] Success" \
             >> "$LOG_FILE"
